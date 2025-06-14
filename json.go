@@ -6,6 +6,10 @@ import (
 	"net/http"
 )
 
+type errorResponse struct {
+	Error string `json:"error"`
+}
+
 func jsonResponse(writer http.ResponseWriter, statusCode int, payload interface{}) {
 	data, err := json.Marshal(payload)
 	if err != nil {
@@ -17,4 +21,13 @@ func jsonResponse(writer http.ResponseWriter, statusCode int, payload interface{
 	writer.Header().Add("Content-Type", "application/json")
 	writer.WriteHeader(statusCode)
 	writer.Write(data)
+}
+
+func errorJsonResponse(writer http.ResponseWriter, statusCode int, errorMessage string) {
+	if statusCode >= 500 {
+		log.Printf("Responding with status code %v error:", errorMessage)
+	}
+
+	responseObj := errorResponse{Error: errorMessage}
+	jsonResponse(writer, statusCode, responseObj)
 }
