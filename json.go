@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func toJson(writer http.ResponseWriter, statusCode int, payload interface{}) {
+func jsonResponse(writer http.ResponseWriter, statusCode int, payload interface{}) {
 	data, err := json.Marshal(payload)
 	if err != nil {
 		log.Printf("Failed to Marshal Json response: %v", payload)
