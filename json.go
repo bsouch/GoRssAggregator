@@ -31,3 +31,8 @@ func errorJsonResponse(writer http.ResponseWriter, statusCode int, errorMessage 
 	responseObj := errorResponse{Error: errorMessage}
 	jsonResponse(writer, statusCode, responseObj)
 }
+
+func jsonDeserialise(r *http.Request, params interface{}) error {
+	decoder := json.NewDecoder(r.Body)
+	return decoder.Decode(&params)
+}
